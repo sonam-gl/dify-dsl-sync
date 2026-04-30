@@ -184,7 +184,7 @@ workflow:
           trace_id:
             children: null
             type: string
-        selected: false
+        selected: true
         title: Code
         type: code
         variables:
