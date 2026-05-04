@@ -166,7 +166,7 @@ workflow:
           : log_level.upper(),\n        \"message\": log_message,\n        \"details\"\
           : final_data\n    }\n\n    # For now, Dify will store this in its own 'Logs'\
           \ tab \n    # as the output of this workflow.\n    return {\n        \"\
-          result\": \"Success\",\n        \"trace_id\": str(uuid.uuid4()), # fresh\
+          result\": \"SUCCESS\",\n        \"trace_id\": str(uuid.uuid4()), # fresh\
           \ ID for every run\n        \"timestamp\": formatted_timestamp,\n      \
           \  \"recorded_log\": log_entry\n    }"
         code_language: python3
@@ -184,7 +184,7 @@ workflow:
           trace_id:
             children: null
             type: string
-        selected: false
+        selected: true
         title: Code
         type: code
         variables:
@@ -271,6 +271,6 @@ workflow:
       type: custom
       width: 244
     viewport:
-      x: 210.83908214196242
-      y: -11.46861974588785
-      zoom: 0.7862191001540126
+      x: -59.611721715573935
+      y: -174.0348124340785
+      zoom: 1.1321555042217781
