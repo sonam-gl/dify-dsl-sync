@@ -1,0 +1,276 @@
+app:
+  description: 'Receiver App: Centralized Logger app'
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: workflow
+  name: Central_Logger
+  use_icon_as_answer_icon: false
+dependencies: []
+kind: app
+version: 0.3.1
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 50
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: code
+      id: 1776335477285-source-1776340311605-target
+      source: '1776335477285'
+      sourceHandle: source
+      target: '1776340311605'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: end
+      id: 1776340311605-source-1776340754561-target
+      source: '1776340311605'
+      sourceHandle: source
+      target: '1776340754561'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Start
+        type: start
+        variables:
+        - label: log_level
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: log_level
+        - label: log_message
+          max_length: 2048
+          options: []
+          required: true
+          type: paragraph
+          variable: log_message
+        - label: verbose_payload
+          max_length: 1000
+          options: []
+          required: true
+          type: paragraph
+          variable: verbose_payload
+        - label: mode
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: mode
+        - label: app_id
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: app_id
+        - label: response_mode
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: response_mode
+        - label: user
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: user
+        - label: id
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: id
+      height: 271
+      id: '1776335477285'
+      position:
+        x: 80
+        y: 282
+      positionAbsolute:
+        x: 80
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        code: "import json\nfrom datetime import datetime, timedelta, timezone\nimport\
+          \ uuid\n\ndef main(app_id: str, id: str, log_level: str, log_message: str,\
+          \ verbose_payload: str, mode: str, tz_offset: float = 5.5):\n    # 1. Handle\
+          \ Verbosity Logic\n    final_data = {}\n    \n    if mode.lower() == \"\
+          verbose\":\n        try:\n            # Attempt to parse if it's a stringified\
+          \ JSON\n            final_data = json.loads(verbose_payload) if isinstance(verbose_payload,\
+          \ str) else verbose_payload\n        except:\n            final_data = {\"\
+          raw_payload\": verbose_payload}\n    else:\n        # Summary mode: only\
+          \ keep a snippet or nothing\n        final_data = {\"status\": \"Payload\
+          \ hidden in summary mode\"}\n\n    # 2. Dynamic Timezone Logic\n    # Uses\
+          \ the provided offset (default is 5.5 for IST)\n    target_time = datetime.now(timezone.utc)\
+          \ + timedelta(hours=tz_offset)\n    formatted_timestamp = target_time.strftime(\"\
+          %m/%d/%Y %I:%M %p\")\n\n    # 3. Format the Log Entry\n    log_entry = {\n\
+          \        \"app_id\": app_id,\n        \"id\": id,\n        \"log_level\"\
+          : log_level.upper(),\n        \"message\": log_message,\n        \"details\"\
+          : final_data\n    }\n\n    # For now, Dify will store this in its own 'Logs'\
+          \ tab \n    # as the output of this workflow.\n    return {\n        \"\
+          result\": \"Success\",\n        \"trace_id\": str(uuid.uuid4()), # fresh\
+          \ ID for every run\n        \"timestamp\": formatted_timestamp,\n      \
+          \  \"recorded_log\": log_entry\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          recorded_log:
+            children: null
+            type: object
+          result:
+            children: null
+            type: string
+          timestamp:
+            children: null
+            type: string
+          trace_id:
+            children: null
+            type: string
+        selected: false
+        title: Code
+        type: code
+        variables:
+        - value_selector:
+          - '1776335477285'
+          - log_level
+          value_type: string
+          variable: log_level
+        - value_selector:
+          - '1776335477285'
+          - log_message
+          value_type: string
+          variable: log_message
+        - value_selector:
+          - '1776335477285'
+          - verbose_payload
+          value_type: string
+          variable: verbose_payload
+        - value_selector:
+          - '1776335477285'
+          - mode
+          value_type: string
+          variable: mode
+        - value_selector:
+          - '1776335477285'
+          - app_id
+          value_type: string
+          variable: app_id
+        - value_selector:
+          - '1776335477285'
+          - id
+          value_type: string
+          variable: id
+      height: 53
+      id: '1776340311605'
+      position:
+        x: 384
+        y: 282
+      positionAbsolute:
+        x: 384
+        y: 282
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    - data:
+        desc: ''
+        outputs:
+        - value_selector:
+          - '1776340311605'
+          - result
+          value_type: string
+          variable: status
+        - value_selector:
+          - '1776340311605'
+          - recorded_log
+          value_type: string
+          variable: recorded_log
+        - value_selector:
+          - '1776340311605'
+          - trace_id
+          value_type: string
+          variable: trace_id
+        - value_selector:
+          - '1776340311605'
+          - timestamp
+          value_type: string
+          variable: timestamp
+        selected: false
+        title: End
+        type: end
+      height: 168
+      id: '1776340754561'
+      position:
+        x: 688
+        y: 282
+      positionAbsolute:
+        x: 688
+        y: 282
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 244
+    viewport:
+      x: 210.83908214196254
+      y: -11.46861974588785
+      zoom: 0.7862191001540126
