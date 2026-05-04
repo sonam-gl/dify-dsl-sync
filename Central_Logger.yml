@@ -184,7 +184,7 @@ workflow:
           trace_id:
             children: null
             type: string
-        selected: true
+        selected: false
         title: Code
         type: code
         variables:
@@ -271,6 +271,6 @@ workflow:
       type: custom
       width: 244
     viewport:
-      x: -59.611721715573935
-      y: -174.0348124340785
-      zoom: 1.1321555042217781
+      x: 210.83908214196254
+      y: -11.46861974588785
+      zoom: 0.7862191001540126
